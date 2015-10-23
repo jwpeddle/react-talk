@@ -1,7 +1,7 @@
 <!DOCTYPE html>
 <html ng-app="vmfarms">
   <head>
-    <title>Taxes</title>
+    <title>React.js</title>
     <meta http-equiv="Content-Type" content="text/html; charset=UTF-8"/>
     <style type="text/css">
       @import url(http://fonts.googleapis.com/css?family=Yanone+Kaffeesatz);
@@ -60,7 +60,7 @@
         background-color: #222;
       }
       .remark-slide-content {
-        background: url(http://subtlepatterns.subtlepatterns.netdna-cdn.com/patterns/debut_dark.png);
+        background: url(http://subtlepatterns2015.subtlepatterns.netdna-cdn.com/patterns/debut_dark.png);
         font-size: 30px;
       }
       .done-true {
@@ -74,7 +74,126 @@
 
 class: center, middle
 
-#learn you a save for great retire!
+#React.js
+####Yet <em>another</em> another javascript framework
+???
+React.js, yet <em>another</em> another javascript framework
+
+---
+class: middle
+##A javascript library for building user interfaces
+* Just the UI (the V in MVC)
+* Virtual DOM
+* Components
+* One-way data flow
+* JSX - XML in your Javascript
+???
+What is React?
+A javascript library for building user interfaces, by Facebook.
+
+Just the UI (the view in model view controller) - it makes no assumptions about the rest of your stack.
+
+Virtual DOM. React maintains its own in-memory representation of the browser DOM.
+
+Components. UI and functionality is grouped into class-like objects for organization.
+
+One-way data flow. Parent components handle state changes and propagate to child components.
+
+JSX - XML in your Javascript. Don't cringe just yet.
+
+---
+class: middle
+
+```html
+<div id="example"></div>
+
+<script>
+  var React = require('react');
+  var ReactDOM = require('react-dom');
+
+  ReactDOM.render(
+    <h1>Hello, world!</h1>,
+    document.getElementById('example')
+  );
+</script>
+```
+???
+Here's a hello world example. A few things of note here:
+
+React uses CommonJS for modules, which is pretty much the standard nowadays. That's the require() lines at the top.
+
+There's HTML right inside the javascript, as you can see with the h1.
+
+We call render on the ReactDOM, passing markup and an element on the page for it to render inside of. This looks like template rendering in any framework.
+
+Let's look at a slightly more complex version of this.
+---
+class: middle
+
+```html
+<div id="example"></div>
+
+<script>
+  var Hello = React.createClass({
+    render: function() {
+      return <div>Hello {this.props.name}</div>;
+    }
+  });
+   
+  ReactDOM.render(
+    <Hello name="World" />,
+    document.getElementById('example')
+  );
+</script>
+```
+???
+In this example, we first create a React component named Hello, which has a render function that returns not just
+HTML, but HTML with a variable in it.
+
+In the call to ReactDOM.render, you can see we're still passing what looks like HTML, but it's in fact our component. We even set the 'name' property using HTML attributes.
+
+Now that we know what it looks like, let's talk about the features and philosophy.
+
+---
+class: middle
+#Just the UI
+* Drop in framework
+* Unopinionated*
+* Architected from design
+
+*Flux, GraphSQL, Relay
+
+???
+Because React.js is only concerned with UI, it works very well as a drop in framework.
+You can compose it with other javascript frameworks, like Backbone for state management. You can also use it alone as a simple enhancement layer.
+
+Unopinionated, which could be considered a pro or con. It's a pro in that you don't need to fully immerse yourself in React to use it. You can do things "wrong" and still get a working application. It's a con in that React may not have the answers to all your questions. Fortunately, Facebook has other technologies and guidelines that fill in some of these opinions, mainly Flux, Relay, and GraphQL, which I'm not going to get into today.
+
+Finally, because React is UI only, you can loosely architect it around the design. To illustrate this, take a look at this example.
+
+---
+class: middle
+#Mockups -> Components
+![mockup](https://facebook.github.io/react/img/blog/thinking-in-react-mock.png) ![mockup2](https://facebook.github.io/react/img/blog/thinking-in-react-components.png)
+
+https://jsfiddle.net/reactjs/yun1vgqb/light/
+???
+Let's say you're handed the mockup on the left. By simply drawing boxes around the pieces that relate to each other, you know exactly how many React components you need to build it. In this case, one to represent the search box, one to represent each line item, one to represent to headers, one for the list itself, and one to group everything together.
+
+That's too much code for a slide, but you can check it out on jsfiddle if you want.
+
+---
+class: middle
+#Virtual DOM
+* In memory
+* Very fast to apply changes to the real DOM
+* Rerender everything
+
+???
+Virtual DOM is one of the major features of React, because it makes it faster than basically everything.
+
+Because the Browser DOM is very slow, React maintains its own version of the DOM. When you make changes to your state, the React DOM updates by rerendering every component, then diffing them to figure out what needs to change in the real DOM, then injecting the patch.
+
 
 ---
 class: center, middle
