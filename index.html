@@ -91,11 +91,11 @@ class: middle
 What is React?
 A javascript library for building user interfaces, by Facebook.
 
-Just the UI (the view in model view controller) - it makes no assumptions about the rest of your stack.
-
-Virtual DOM. React maintains its own in-memory representation of the browser DOM.
+It's just the UI (the view in model view controller) - it makes no assumptions about the rest of your stack.
 
 Components. UI and functionality is grouped into class-like objects for organization.
+
+Virtual DOM. React maintains its own in-memory representation of the browser DOM.
 
 One-way data flow. Parent components handle state changes and propagate to child components.
 
@@ -103,6 +103,8 @@ JSX - XML in your Javascript. Don't cringe just yet.
 
 ---
 class: middle
+
+#Hello World
 
 ```html
 <div id="example"></div>
@@ -120,7 +122,7 @@ class: middle
 ???
 Here's a hello world example. A few things of note here:
 
-React uses CommonJS for modules, which is pretty much the standard nowadays. That's the require() lines at the top.
+React uses CommonJS for modules, which is pretty much the standard nowadays. That's the require() calls there.
 
 There's HTML right inside the javascript, as you can see with the h1.
 
@@ -130,6 +132,7 @@ Let's look at a slightly more complex version of this.
 ---
 class: middle
 
+#Hello World with State
 ```html
 <div id="example"></div>
 
@@ -159,7 +162,7 @@ class: middle
 #Just the UI
 * Drop in framework
 * Unopinionated*
-* Architected from design
+* Architect from design
 
 *Flux, GraphSQL, Relay
 
@@ -187,359 +190,81 @@ class: middle
 #Virtual DOM
 * In memory
 * Very fast to apply changes to the real DOM
-* Rerender everything
+* Can be rendered server side.
+* Can be applied to things other than the browser DOM - React Native
 
 ???
-Virtual DOM is one of the major features of React, because it makes it faster than basically everything.
+Virtual DOM is one of the major features of React, because it makes it faster than basically every other javascript framework.
 
 Because the Browser DOM is very slow, React maintains its own version of the DOM. When you make changes to your state, the React DOM updates by rerendering every component, then diffing them to figure out what needs to change in the real DOM, then injecting the patch.
 
+For SEO, React components can prerender using Node to serve up static pages.
+
+Finally, React maintaining a virtual DOM means the translation layer doesn't have to only apply to browser DOMs. Facebook has released React Native, which allows you to write React components for Android and iOS Native apps.
 
 ---
-class: center, middle
-
-## The government wants your money
-
-![king](king.jpg)
----
-class: middle, center
-
-##Income Tax
-Annual tax on your personal income. ie: your VM Farms paycheck.
-
-##Capital Gains Tax
-Annual tax on your income from capital you sell for more than you
-bought it for. ie: stocks, bonds, real estate.
-
----
-class: center, middle
-
-<table>
-  <thead>
-    <tr><td>Income</td><td>Income Tax</td><td>Capital Gains Tax</td></tr>
-  </thead>
-  <tbody>
-    <tr><td>first $40,922</td><td>20.05%</td><td>10.03%</td></tr>
-    <tr><td>over $40,922 up to $44,701</td><td>24.15%</td><td>12.08%</td></tr>
-    <tr><td>over $44,701 up to $72,064</td><td>31.15%</td><td>15.58%</td></tr>
-    <tr><td>over $72,064 up to $81,847</td><td>32.98%</td><td>16.49%</td></tr>
-    <tr><td>over $81,847 up to $84,902</td><td>35.39%</td><td>17.70%</td></tr>
-    <tr><td>over $84,902 up to $89,401</td><td>39.41%</td><td>19.70%</td></tr>
-    <tr><td>over $89,401 up to $138,586</td><td>43.41%</td><td>21.70%</td></tr>
-    <tr><td>over $138,586 up to $150,000</td><td>46.41%</td><td>23.20%</td></tr>
-    <tr><td>over $150,000 up to $220,000</td><td>47.97%</td><td>23.98%</td></tr>
-    <tr><td>over $220,000</td><td>49.53%</td><td>24.76%</td></tr>
-  </tbody>
-</table>
+class: middle
+#One-way data flow
+* You explicitly trigger events that change state.
+* Parent component will rerender all children in response to state change.
+* Easy to debug events and state changes.
 
 ???
-
-Capital Gains tax is half of your tax rate.
-
----
-class: center, middle
-## The government also wants you to wants you to keep your money
-
-![sad](sad.jpg)
-
----
-class: center
-##Registered savings vehicles
-
-![van](van.jpg)
-
-???
-By providing registered savings vehicles (or accounts).
+Unlike, say, Angular, React data flows in one direction. This means that nothing rerenders magically. You always know exactly when you're triggering a rerender, and where it happens. React involves a little more writing, but it gives you much more explicit places to step through when things go wrong.
 
 ---
 class: middle
 
-##Registered savings vehicle
-An account through a financial institution that is registered with the federal
-government that allows you to avoid some taxes, or pay them later.
+#JSX
+* Allows organization tree-like data using a familiar syntax.
+* Leverages normal javascript for logic.
+* Optional, simply syntactic sugar on top of javascript.
+
+```
+// Input (JSX):
+var app = <Nav color="blue" />;
+
+// Output (JS):
+var app = React.createElement(Nav, {color: 'blue'});
+```
 
 ???
-An account (or multiple accounts) through a financial institution (eg bank, stock brokerage)
-that is registered with the federal government that allows you to defer or avoid some taxes.
+JSX is one thing about React that causes people to do a double take, since putting XML inside javascript sounds awful and a terrible separation of concerns. In practice, however, it is basically impossible to separate HTML and Javascript cleanly. There's always fragile glue between the two and it's unclear where you're meant to cut.
+
+JSX acknowleges that HTML simply represents your data hierarchy, and provides a friendly familiar syntax to organize it. You can even ditch it completely for vanilla javascript, but most people end up preferring JSX.
 
 ---
-class: middle
-##There are four types of savings vehicles
-* RRSP (Registered Retirement Savings Plan)
-* RESP (Registered Education Savings Plan)
-* RDSP (Registered Disability Savings Plan)
-* TFSA (Tax Free Savings Account)
+#JSX is just Javascript
 
-???
-There are four types of savings vehicles: RRSP, RESP, RDSP and to mess up the naming scheme, the relatively new TFSA
+####Example of a normal if/else being used as a conditional: 
+```
+var loginButton;
+if (loggedIn) {
+  loginButton = <LogoutButton />;
+} else {
+  loginButton = <LoginButton />;
+}
 
----
-class: center, middle
-###All four types allow you to avoid paying capital gains tax on any investments made inside of them
-
-???
-I'll return to this point shortly.
-
----
-class: middle
-##RESP (Registered Education Savings Plan)
-Intent: saving money for a child for education.
-
-Contribution room: $50,000 per child.
-???
-I'll quickly cover the easiest to understand, the RESP.
+return (
+  <nav>
+    <Home />
+    {loginButton}
+  </nav>
+);
+```
 
 ---
-class: middle
-
-##Free money
-Paired with the Canada Education Savings Grant, pays 20 cents on the dollar directly
-from the government, to a maximum of $500 per year and $7200 per child.
-
-???
-This is the only one that provides free money from the government, via the Canada Education Savings Grant
-witch matches 20% of your contribution up to $7200 per child.
-
----
-class: middle
-##RRSP (Registered Retirement Savings Plan)
-Intent: Saving money for retirement.
-
-Contribution room: 18% of your earned income from the previous year, max ~$25,000/year
-
----
-class: middle
-You don't pay taxes on money in an RRSP until you withdraw it.
-
-eg. If you make $50,000, and put $5000 in an RRSP, you pay income tax as though
-you only made $45,000.
-
-???
-
-You can either claim that five grand when you do your taxes and get refunded about $1500
-
-or you can pre-emptively pay less taxes all year by specifying so on your T1213, which is that
-form Hany gives you every year.
-
----
-class: middle
-###You can withdraw RRSP money at any time. When you do:
-
-* It counts as income for the year, and you pay income tax on it
-* You lose that contribution room forever*
-
-???
-
-You can withdraw RRSP money at any time. When you do:
-
-It counts as income for the year, and you pay income tax on it
-Bye bye refund
-
-You lose that contribution room forever, unless you're buying a home or going back
-to school, allowing $25000 and $20000 respectively.
-
----
-class: middle
-
-##TFSA (Tax Free Savings Account)
-Intent: Saving money for everything else.
-
-Contribution room: Currently $41,000 total, with $10,000 more per year.
-
-???
-
-New car, renovations, start a business, take a family vacation.
-
----
-class: middle
-You *do* pay taxes on TFSA contributions.
-
-eg. If you make $50,000, and put $5000 in an TFSA, you pay income tax on the full $50,000
-
-???
-
-You will get no refund
-
----
-class: middle
-
-###You can withdraw TFSA money at any time. When you do:
-
-* You lose that contribution room until the following year
-* Since you already paid the taxes on it, you can withdraw it tax-free
-
----
-class: middle
-
-##So, TFSA or RRSP?
-
-![what](what.jpg)
-
----
-class: middle
-
-###It doesn't matter
-
-Retired people tend to live on a lower income, and that makes RRSPs more
-appealing because lower income means lower taxes.
-
-TFSAs are more versatile for short term saving and spending.
-
-???
-All things being equal, putting your money in TFSAs vs RRSPs will not affect
-how much you pay in taxes- only when.
-
----
-class: middle
-
-#Who cares?
-
-![what](what.jpg)
-
-???
-
-Now or later, I have to pay the taxes, so why not just stuff my money in my
-TD account?
-
----
-class: center, middle
-
-#Remember
-###All four types allow you to avoid paying capital gains tax on any investments made inside of them
-
-???
-So let's talk about investments, starting with the simplest kind.
-
----
-class: center, middle
-
-#TFSA/RRSP Saving accounts
-Aside from the tax benefits, these are usually identical to normal savings accounts.
-
-Most banks only offer ~1.0% annual interest...
-
-???
-
-Every bank in the country offers TSFA/RRSP savings accounts.
-Aside from the tax benefits, these are usually identical to normal savings accounts.
-
-Often labeled "high-interest", but currently all major banks only offer ~1.0%
-annual interest...
-
----
-class: center, middle
-
-... which is less than inflation.
-
-![deflate](deflate.png)
-
-???
-
-That means the money you have sitting in your savings account can buy less things
-the longer it sits there.
-
----
-class: center, middle
-
-###TFSA/RRSPs can also be: stocks, bonds, mutual funds, and ETFs.
-
-###You can have multiple TFSA/RRSP accounts.
-
-???
-Despite the name, Tax Free Savings Accounts do not have to be savings accounts.
-You can get TFSA accounts for more exciting things: stocks, bonds, mutual funds, and ETFs.
-
-You can also have any number of TFSAs, as long as the total contribution room is
-not exceeded.
-
----
-#Stocks and bonds
-
-##Stocks (aka equity)
-A share in the ownership of a company. Gains value with company growth. Average return: 8.5%
-
-##Bond
-A loan, often to the government or trusted business, with a pre-set interest rate. Average return: 4.5%
-
-???
-
-As you can see, these rates are much higher than the 1.0% from a savings account. However...
-
----
-##The stock market is volatile
-
-Investments are always risk/reward. The biggest returns come with the biggest risk.
-
-In the short term, the stock market can vary wildly, especially in the event of a crash, ie 2008
-
-???
-Even if you believe in the long term stability of the stock market, you have to be prepared to deal with
-major swings, which makes it a dangerous choice for short term savings.
-
----
-##Bonds mitigate volatility
-
-Bonds tend to move inversely with stocks.
-
-Investing in both can make stock market swings less impactful.
-
-???
-General investment advice is to hold roughly your age in bonds, and the rest in stocks.
-
----
-#How to invest
-Get an account at a brokerage, and start buying individual stocks.
-
-Riskiest option. This is basically gambling.
-
-???
-Get an account at a brokerage, such as iTRADE or Questrade and start buying stocks
-you think will perform well.
-
-Riskiest option. Most people lose money this way, and the minority that don't
-often credit themselves too much for the success.
-
----
-##Mutual Funds
-You trust your money to a pool handled by a financial expert.
-
-Less risky, but most mutual funds do also fail in the long term.
-
-Mutual funds make their money from fees.
-
-???
-You trust your money to a pool handled by a financial expert, such as a bank, and they invest it in stocks/bonds.
-
-In theory, less risky, but most mutual funds do also fail in the long term.
-
-Mutual funds make their money from fees, so you lose those fees regardless of performance.
-
----
-##Index Funds and ETFs
-A type of mutual fund that attempts to reflect the stock market as a whole.
-
-Less risky again, as any particular company or industry crashing doesn't affect it much.
-
-Lower fees because much of it can be automated.
-
-???
-A type of mutual fund that attempts to reflect the stock market as a whole, or a subset of the stock market.
-
-Less risky again, as any particular company or industry crashing doesn't affect it much. As long as the stock market
-as a whole goes up, so do index funds.
-
-Lower fees because much of it can be automated.
-
----
-#Resources
-* http://www.reddit.com/r/personalfinancecanada
-* http://canadiancouchpotato.com/
-* http://www.investopedia.com/
+#Who's using it?
+* Instagram/Facebook/WhatsApp (obviously)
+* Yahoo Mail
+* Netflix
+* Hipchat
+* Many, many more https://github.com/facebook/react/wiki/Sites-Using-React
 
 ---
 #Questions?
 
-![balloon](balloon.jpg)
+![confused](http://media3.giphy.com/media/Qy9hRuWrKjY2I/giphy.gif)
 
 
     </textarea>
